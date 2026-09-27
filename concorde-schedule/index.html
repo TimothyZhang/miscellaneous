@@ -1,0 +1,1114 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Concorde 活动时间表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=B612+Mono:wght@400;700&family=Barlow+Condensed:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --paper: #EEF2F7;
+    --card: #FFFFFF;
+    --tint: #F5F7FB;
+    --ink: #0E1A33;
+    --ink-2: #4A5672;
+    --ink-3: #6B7690;
+    --rule: #D8DEE9;
+    --rule-2: #BFC9DA;
+    --board: #0E1A33;
+    --board-ink: #EEF2F7;
+    --board-dim: #94A0BA;
+    --board-rule: #2A3858;
+    --signal: #FFC400;
+    --signal-ink: #1C1500;
+    --now-row: #FFF4CC;
+    --ok: #11734A;
+    --ok-bg: #E2F3E9;
+    --focus: #2563EB;
+    --c-sport: #0A7C72;
+    --c-kids: #C2560C;
+    --c-show: #6A48B5;
+    --c-music: #B2336A;
+    --c-leisure: #6B7A12;
+    --c-dining: #1F6FB2;
+    --f-display: "Barlow Condensed", "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    --f-body: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --f-data: "B612 Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper: #0A1020;
+      --card: #111A2F;
+      --tint: #0D1528;
+      --ink: #E6EBF5;
+      --ink-2: #A6B1C9;
+      --ink-3: #7E8AA6;
+      --rule: #1F2A44;
+      --rule-2: #31405F;
+      --board: #060B17;
+      --board-ink: #E6EBF5;
+      --board-dim: #8691AB;
+      --board-rule: #1F2A44;
+      --now-row: #2A2410;
+      --ok: #5BD49A;
+      --ok-bg: #12301F;
+      --focus: #7AA2FF;
+      --c-sport: #3CC4B4;
+      --c-kids: #F29A55;
+      --c-show: #A993F2;
+      --c-music: #F07CAE;
+      --c-leisure: #B9CB5E;
+      --c-dining: #6DB2F2;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper: #0A1020;
+    --card: #111A2F;
+    --tint: #0D1528;
+    --ink: #E6EBF5;
+    --ink-2: #A6B1C9;
+    --ink-3: #7E8AA6;
+    --rule: #1F2A44;
+    --rule-2: #31405F;
+    --board: #060B17;
+    --board-ink: #E6EBF5;
+    --board-dim: #8691AB;
+    --board-rule: #1F2A44;
+    --now-row: #2A2410;
+    --ok: #5BD49A;
+    --ok-bg: #12301F;
+    --focus: #7AA2FF;
+    --c-sport: #3CC4B4;
+    --c-kids: #F29A55;
+    --c-show: #A993F2;
+    --c-music: #F07CAE;
+    --c-leisure: #B9CB5E;
+    --c-dining: #6DB2F2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  [hidden] { display: none !important; }
+  button { font: inherit; color: inherit; }
+  a { color: inherit; text-decoration-color: var(--rule-2); text-underline-offset: 3px; }
+  a:hover { text-decoration-color: currentColor; }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+  p { margin: 0; }
+
+  .page {
+    max-width: 1000px;
+    margin-inline: auto;
+    padding-inline: 16px;
+    padding-block: 28px 64px;
+    display: grid;
+    gap: 32px;
+  }
+  @media (min-width: 760px) { .page { padding-inline: 32px; gap: 40px; } }
+
+  /* ---------- 页头 ---------- */
+  .masthead { display: grid; gap: 12px; }
+  .eyebrow {
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  h1 {
+    margin: 0;
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: clamp(38px, 8vw, 60px);
+    line-height: 1.02;
+    letter-spacing: .005em;
+    text-wrap: balance;
+  }
+  .nobr { white-space: nowrap; }
+  .lede { max-width: 38em; color: var(--ink-2); font-size: 16px; }
+  .jump { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 14px; color: var(--ink-2); }
+
+  h2 {
+    margin: 0;
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.15;
+    letter-spacing: .01em;
+    text-wrap: balance;
+  }
+  .en-label {
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .muted { color: var(--ink-2); }
+  .sec { display: grid; gap: 14px; scroll-margin-top: 80px; }
+  .sec-head { display: grid; gap: 6px; }
+  .sec-head p { max-width: 42em; color: var(--ink-2); font-size: 14.5px; }
+
+  /* ---------- 航显屏：此刻 ---------- */
+  .fids {
+    background: var(--board);
+    color: var(--board-ink);
+    border: 1px solid var(--board-rule);
+    border-radius: 14px;
+    padding: 18px;
+    display: grid;
+    gap: 16px;
+  }
+  @media (min-width: 760px) {
+    .fids { grid-template-columns: 240px minmax(0, 1fr); padding: 22px 24px; gap: 24px; }
+  }
+  .fids-clock { display: grid; gap: 2px; align-content: start; }
+  .fids-label {
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--board-dim);
+  }
+  .fids-time {
+    font-family: var(--f-data);
+    font-weight: 700;
+    font-size: 46px;
+    line-height: 1.05;
+    color: var(--signal);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .02em;
+  }
+  .fids-sub { font-size: 13.5px; color: var(--board-dim); }
+  .fids-list { list-style: none; margin: 0; padding: 0; display: grid; }
+  .fids-item {
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 2px 14px;
+    align-items: baseline;
+    padding-block: 10px;
+    border-top: 1px dashed var(--board-rule);
+  }
+  .fids-item:first-child { border-top: 0; padding-top: 0; }
+  .fids-tag {
+    grid-row: span 2;
+    align-self: start;
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .08em;
+    text-align: center;
+    padding: 3px 0;
+    border-radius: 4px;
+    border: 1px solid var(--board-dim);
+  }
+  .fids-tag.now { background: var(--signal); color: var(--signal-ink); border-color: var(--signal); }
+  .fids-what { font-weight: 500; font-size: 16px; min-width: 0; }
+  .fids-what .t { font-family: var(--f-data); color: var(--signal); margin-right: 10px; font-size: 15px; }
+  .fids-where {
+    font-family: var(--f-data);
+    font-size: 12.5px;
+    color: var(--board-dim);
+    letter-spacing: .02em;
+    min-width: 0;
+  }
+
+  /* ---------- 选择星期（吸顶） ---------- */
+  .daybar {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: var(--paper);
+    padding-block: 10px;
+    margin-block: -10px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+  .day {
+    appearance: none;
+    position: relative;
+    border: 1px solid var(--rule-2);
+    background: var(--card);
+    border-radius: 8px;
+    padding: 6px 0 5px;
+    display: grid;
+    justify-items: center;
+    cursor: pointer;
+  }
+  .day .zh { font-weight: 500; font-size: 14.5px; line-height: 1.3; }
+  .day .en {
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: 11.5px;
+    letter-spacing: .12em;
+    line-height: 1.2;
+    color: var(--ink-3);
+  }
+  .day[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .day[aria-pressed="true"] .en { color: var(--paper); opacity: .72; }
+  .day.is-today::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    width: 20px;
+    height: 3px;
+    margin-left: -10px;
+    border-radius: 2px;
+    background: var(--signal);
+  }
+
+  /* ---------- 时间表 ---------- */
+  .board-head { display: grid; gap: 10px; }
+  .board-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+  .board-meta { font-size: 14px; color: var(--ink-2); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    appearance: none;
+    border: 1px solid var(--rule-2);
+    background: transparent;
+    border-radius: 999px;
+    padding: 3px 12px;
+    font-size: 13.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    color: var(--ink-2);
+  }
+  .chip[aria-pressed="true"] { border-color: var(--ink); background: var(--card); color: var(--ink); font-weight: 500; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c, var(--ink-3)); flex: none; }
+  .cat-sport { --c: var(--c-sport); }
+  .cat-kids { --c: var(--c-kids); }
+  .cat-show { --c: var(--c-show); }
+  .cat-music { --c: var(--c-music); }
+  .cat-leisure { --c: var(--c-leisure); }
+  .cat-dining { --c: var(--c-dining); }
+
+  .sheet { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; }
+  .colhead { display: none; }
+  .grp-title {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0;
+    padding: 10px 16px 8px;
+    background: var(--tint);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: .06em;
+    color: var(--ink-2);
+  }
+  .grp:first-child .grp-title { border-top: 0; }
+  .rows { list-style: none; margin: 0; padding: 0; }
+  .row {
+    display: grid;
+    grid-template-columns: 62px minmax(0, 1fr) auto;
+    grid-template-areas: "time what status" "time where status";
+    gap: 2px 12px;
+    padding: 12px 16px;
+    border-top: 1px solid var(--rule);
+    align-items: start;
+  }
+  .rows .row:first-child { border-top: 0; }
+  .r-time { grid-area: time; font-family: var(--f-data); font-variant-numeric: tabular-nums; line-height: 1.25; }
+  .r-time .s { display: block; font-weight: 700; font-size: 17px; }
+  .r-time .e { display: block; font-size: 12.5px; color: var(--ink-3); }
+  .r-what { grid-area: what; min-width: 0; }
+  .r-name { font-weight: 500; font-size: 16px; line-height: 1.35; }
+  .r-orig {
+    display: block;
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: 13.5px;
+    letter-spacing: .05em;
+    color: var(--ink-3);
+    line-height: 1.3;
+  }
+  .r-tags { display: flex; flex-wrap: wrap; gap: 2px 10px; margin-top: 5px; font-size: 12.5px; color: var(--ink-2); }
+  .tag { display: inline-flex; align-items: center; gap: 5px; }
+  .tag.special {
+    border: 1px solid var(--ink-2);
+    border-radius: 3px;
+    padding: 0 5px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .r-note { margin-top: 4px; font-size: 12.5px; color: var(--ink-3); }
+  .r-where { grid-area: where; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 6px; min-width: 0; }
+  .gate {
+    font-family: var(--f-data);
+    font-weight: 700;
+    font-size: 11.5px;
+    letter-spacing: .03em;
+    border: 1px solid var(--rule-2);
+    border-radius: 4px;
+    padding: 1px 6px;
+    white-space: nowrap;
+  }
+  .gate-zh { font-size: 12.5px; color: var(--ink-2); }
+  .r-status { grid-area: status; justify-self: end; }
+  .pill {
+    display: inline-block;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 1px 9px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    color: var(--ink-3);
+    white-space: nowrap;
+  }
+  .row.is-now { background: var(--now-row); }
+  .row.is-now .pill { background: var(--signal); color: var(--signal-ink); border-color: var(--signal); font-weight: 700; }
+  .row.is-next .pill { border-color: var(--ink); color: var(--ink); font-weight: 500; }
+  .row.is-done { opacity: .5; }
+  .row.is-open .pill { background: var(--ok-bg); color: var(--ok); font-weight: 500; }
+  .empty { padding: 28px 18px; color: var(--ink-2); text-align: center; font-size: 14.5px; }
+
+  @media (min-width: 760px) {
+    .sheet { --cols: 92px minmax(0, 1fr) 220px 88px; }
+    .colhead {
+      display: grid;
+      grid-template-columns: var(--cols);
+      gap: 16px;
+      padding: 10px 18px;
+      border-bottom: 1px solid var(--rule);
+      font-family: var(--f-display);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: .12em;
+      color: var(--ink-3);
+    }
+    .colhead span:last-child { text-align: right; }
+    .grp-title { padding-inline: 18px; }
+    .row {
+      grid-template-columns: var(--cols);
+      grid-template-areas: "time what where status";
+      gap: 16px;
+      padding: 12px 18px;
+    }
+    .r-where { display: grid; gap: 2px; margin-top: 0; justify-items: start; align-content: start; }
+  }
+
+  /* ---------- 一周特别节目 ---------- */
+  .week { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+  .wk {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 12px;
+    padding-block: 12px;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .wk-day {
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    text-align: left;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.3;
+  }
+  .wk-day small {
+    display: block;
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: .14em;
+    color: var(--ink-3);
+  }
+  .wk-day:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .wk-items { display: flex; flex-wrap: wrap; gap: 6px 8px; min-width: 0; }
+  .wk-item {
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 2px 8px;
+    border: 1px solid var(--rule-2);
+    border-radius: 6px;
+    padding: 4px 9px;
+    background: var(--card);
+    font-size: 14px;
+    max-width: 100%;
+  }
+  .wk-item .t { font-family: var(--f-data); font-size: 12.5px; font-weight: 700; }
+  .wk-item .l { font-family: var(--f-data); font-size: 11px; color: var(--ink-3); }
+  .wk-none { color: var(--ink-3); font-size: 14px; }
+
+  /* ---------- 场所列表 ---------- */
+  .venues { list-style: none; margin: 0; padding: 0; background: var(--card); border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; }
+  .venue {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    padding: 14px 16px;
+    border-top: 1px solid var(--rule);
+  }
+  .venue:first-child { border-top: 0; }
+  @media (min-width: 640px) {
+    .venue { grid-template-columns: minmax(0, 1fr) 230px; gap: 20px; padding-inline: 18px; }
+  }
+  .v-name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+  .v-en { font-family: var(--f-display); font-weight: 700; font-size: 19px; letter-spacing: .02em; line-height: 1.2; }
+  .v-zh { font-size: 13.5px; color: var(--ink-2); }
+  .v-desc { margin-top: 3px; font-size: 14px; color: var(--ink-2); max-width: 40em; }
+  .v-rule { margin-top: 4px; font-size: 13px; font-weight: 500; }
+  .v-side { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+  @media (min-width: 640px) { .v-side { align-items: flex-end; text-align: right; } }
+  .hours { font-family: var(--f-data); font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .hours .h-label { font-family: var(--f-body); font-size: 12.5px; color: var(--ink-2); margin-right: 8px; }
+  .hours.none { font-family: var(--f-body); color: var(--ink-3); }
+  .v-side .pill { margin-top: 3px; }
+  .pill.open { background: var(--ok-bg); color: var(--ok); font-weight: 500; }
+  .pill.closed { border-color: var(--rule-2); }
+
+  /* ---------- 地点与用语 ---------- */
+  .terms { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0 24px; margin: 0; }
+  .term { display: grid; gap: 2px; padding-block: 10px; border-top: 1px solid var(--rule); }
+  .term dt { font-family: var(--f-data); font-weight: 700; font-size: 13px; letter-spacing: .02em; }
+  .term dd { margin: 0; font-size: 14px; color: var(--ink-2); }
+  .term dd b { color: var(--ink); font-weight: 500; }
+
+  /* ---------- 来源 ---------- */
+  .notes { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; font-size: 14px; color: var(--ink-2); max-width: 46em; }
+  .src { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 14px; }
+  .src a { word-break: break-word; }
+  .fineprint { font-size: 13px; color: var(--ink-3); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+</style>
+
+<div class="page" lang="zh-CN">
+  <header class="masthead">
+    <p class="eyebrow">Concorde De Luxe Resort · Lara, Antalya</p>
+    <h1>Concorde <span class="nobr">活动时间表</span></h1>
+    <p class="lede">每天的活动、晚间演出、用餐和酒吧时间，以及它们在酒店里的位置。选一天查看；看当天时会标出正在进行和下一个活动。非官方整理，一切以酒店当日公告为准。</p>
+    <nav class="jump" aria-label="页面目录">
+      <a href="#board">时间表</a>
+      <a href="#week">一周特别节目</a>
+      <a href="#dining">餐厅</a>
+      <a href="#bars">酒吧与咖啡</a>
+      <a href="#facilities">设施</a>
+      <a href="#places">地点与用语</a>
+      <a href="#sources">来源</a>
+    </nav>
+  </header>
+
+  <section class="fids" aria-label="此刻">
+    <div class="fids-clock">
+      <span class="fids-label">土耳其时间 · UTC+3</span>
+      <span class="fids-time" id="clock">--:--</span>
+      <span class="fids-sub" id="clockDay">&nbsp;</span>
+      <span class="fids-sub" id="clockDiff"></span>
+    </div>
+    <ol class="fids-list" id="nowNext"></ol>
+  </section>
+
+  <div class="daybar">
+    <div class="days" id="days" role="group" aria-label="选择星期"></div>
+  </div>
+
+  <section class="sec" id="board" aria-labelledby="boardTitle">
+    <div class="board-head">
+      <div class="board-title">
+        <h2 id="boardTitle">时间表</h2>
+        <span class="board-meta" id="boardMeta"></span>
+      </div>
+      <div class="chips" id="chips" role="group" aria-label="按类别筛选"></div>
+    </div>
+    <div class="sheet">
+      <div class="colhead" aria-hidden="true"><span>时间</span><span>活动</span><span>地点</span><span>状态</span></div>
+      <div id="groups"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="week" aria-labelledby="weekTitle">
+    <div class="sec-head">
+      <h2 id="weekTitle">一周特别节目</h2>
+      <p>每天的固定活动之外，各天另有的节目。官网说明晚间演出来自 14 天轮换的剧目，每晚不同，秀后有泳池边现场音乐和主题派对。周四、周六没有收录到具体节目，到店后以大堂和 App 公告为准。点星期可跳到当天的时间表。</p>
+    </div>
+    <ol class="week" id="weekList"></ol>
+  </section>
+
+  <section class="sec" id="dining" aria-labelledby="diningTitle">
+    <div class="sec-head">
+      <h2 id="diningTitle">餐厅</h2>
+      <p>6 家零点餐厅都在 19:00–22:00 供应晚餐，都要提前预约，可在 guestranet App 或宾客关系部预订。零点餐厅另有付费酒单；是否另收餐费以酒店当季规定为准。</p>
+    </div>
+    <ul class="venues" id="restaurantList"></ul>
+  </section>
+
+  <section class="sec" id="bars" aria-labelledby="barsTitle">
+    <div class="sec-head">
+      <h2 id="barsTitle">酒吧与咖啡</h2>
+      <p>营业状态按土耳其当前时间计算。酒店保留调整营业时间的权利。</p>
+    </div>
+    <ul class="venues" id="barList"></ul>
+  </section>
+
+  <section class="sec" id="facilities" aria-labelledby="facTitle">
+    <div class="sec-head">
+      <h2 id="facTitle">设施</h2>
+      <p>免费运动：网球、水中健身、踏板操和有氧操、乒乓球、水中排球、羽毛球、地掷球、篮球、迷你高尔夫、小型足球、飞镖、非机动水上运动。入住 15:00，退房 12:00（预订平台信息）。</p>
+    </div>
+    <ul class="venues" id="facilityList"></ul>
+  </section>
+
+  <section class="sec" id="places" aria-labelledby="placesTitle">
+    <div class="sec-head">
+      <h2 id="placesTitle">地点与用语</h2>
+      <p>guestranet App 里地点和活动常用英文大写或土耳其语，下面是对照。</p>
+    </div>
+    <dl class="terms" id="termList"></dl>
+  </section>
+
+  <section class="sec" id="sources" aria-labelledby="srcTitle">
+    <div class="sec-head">
+      <h2 id="srcTitle">来源与说明</h2>
+    </div>
+    <ul class="notes">
+      <li>活动数据来自酒店 guestranet 页面在搜索引擎中的快照，抓取日期不详。节目会轮换，也会随季节调整。</li>
+      <li>同一项目在不同快照或来源中时间、地点不一致时，按 guestranet 为准，并在条目下注明另一种写法。</li>
+      <li>快照里还有足球比赛直播（例如某周二 21:00 在 Pool Bar、某周五 20:00 在 Lounge Bar），场次随赛程变化，没有放进时间表。</li>
+      <li>餐厅、酒吧、设施信息来自酒店官网各语言版本；部分设施的开放时间官网未公布，标为“时间未公布”。</li>
+    </ul>
+    <ul class="src">
+      <li><a href="https://guestranet.com/concorde/guestranetmenu.php" target="_blank" rel="noopener">guestranet · Concorde De Luxe Resort 首页（活动、餐厅列表）</a></li>
+      <li><a href="https://guestranet.com/concorde/guestranetappetkinlik.php" target="_blank" rel="noopener">guestranet · 活动页</a></li>
+      <li><a href="https://guestranet.com/concorde/guestranetappsayfalar.php?id=48" target="_blank" rel="noopener">guestranet · Poseidon 零点餐厅</a></li>
+      <li><a href="https://www.concordehotels.com.tr/en-US/hotels/concorde-de-luxe-resort/food-beverage" target="_blank" rel="noopener">官网 · 餐饮（英文）</a> · <a href="https://www.concordehotels.com.tr/tr-tr/oteller/concorde-de-luxe-resort/yiyecek-icecek" target="_blank" rel="noopener">土耳其语</a></li>
+      <li><a href="https://www.concordehotels.com.tr/de-de/hotels/concorde-de-luxe-resort/sports-leisure/unterhaltung-und-animation" target="_blank" rel="noopener">官网 · 娱乐与动画（德语）</a></li>
+      <li><a href="https://www.concordehotels.com.tr/en-us/hotels/concorde-de-luxe-resort/sports-leisure/sports-activities" target="_blank" rel="noopener">官网 · 运动</a> · <a href="https://www.concordehotels.com.tr/en-US/hotels/concorde-de-luxe-resort/sports-leisure/strike-bowling-games" target="_blank" rel="noopener">保龄球与游戏</a></li>
+      <li><a href="https://www.concordehotels.com.tr/en-us/hotels/concorde-de-luxe-resort/spa-wellness" target="_blank" rel="noopener">官网 · Spa</a> · <a href="https://www.concordehotels.com.tr/en-us/hotels/concorde-de-luxe-resort/beach-pool" target="_blank" rel="noopener">海滩与泳池</a></li>
+      <li><a href="https://familytravelgenie.com/concorde-de-luxe-resort-kids-club/" target="_blank" rel="noopener">Family Travel Genie · 儿童俱乐部</a></li>
+    </ul>
+    <p class="fineprint">非官方整理，与酒店无关。整理于 2026 年 9 月 27 日。一切以酒店当日公告为准。</p>
+  </section>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ================= 数据 ================= */
+
+  // App 里的地点写法 → 中文
+  var PLACES = {
+    'THE LUMINA': '演出场地',
+    'VISTA LOBBY BAR': '大堂吧',
+    'ESCAPE BAR': '海景吧',
+    'POOL BAR': '泳池吧',
+    'POOL': '泳池',
+    'FITNESS': '健身中心 · Spa 2 楼',
+    'KAPALIHAVUZ': '室内泳池',
+    'FUTBOLSAHASI': '足球场',
+    'HALLEY SALONU': 'Halley 厅',
+    'MOPPET MINI CLUB': '儿童俱乐部',
+    'BEACH': '海滩 · 码头',
+    'LE BUFFET': '主餐厅',
+    'GARDEN GOURMET': '快餐餐厅',
+    'À LA CARTE': '6 家零点餐厅',
+    'TAKE OFF DISCO': '迪斯科'
+  };
+  // 没有门牌式地点代码的条目
+  var NO_GATE = { 'RESORT': '全园区', '—': '地点未注明' };
+
+  var CAT_ZH = { sport: '运动', kids: '儿童', show: '演出', music: '音乐', leisure: '手作', dining: '用餐' };
+  var FILTERS = ['all', 'sport', 'kids', 'show', 'music', 'dining'];
+
+  // 每天都有（guestranet）
+  var EVERYDAY = [
+    { s: '10:00', e: '17:00', zh: '日间活动时段', en: 'Daily Activity Program', loc: 'RESORT', cats: ['sport'], allDay: true, note: '动画团队的白天节目都排在这个时段' },
+    { s: '10:00', e: '23:00', zh: 'Moppet 儿童俱乐部', en: 'Moppet Mini Club', loc: 'MOPPET MINI CLUB', cats: ['kids'], allDay: true, note: '4–12 岁免费。另有来源写作 10:00–18:00' },
+    { s: '10:30', e: '11:00', zh: '晨间健身', en: 'Morning Gym', loc: 'FITNESS', cats: ['sport'] },
+    { s: '11:15', e: '12:00', zh: '飞镖', en: 'Darts', loc: 'POOL BAR', cats: ['sport'], note: '另有记录写作 Vista Lobby Bar' },
+    { s: '11:30', e: '12:00', zh: '水中健身操', en: 'Su Jimnastiği · Water Gym', loc: 'KAPALIHAVUZ', cats: ['sport'] },
+    { s: '15:15', e: '15:45', zh: '飞镖', en: 'Darts', loc: 'VISTA LOBBY BAR', cats: ['sport'] },
+    { s: '15:30', e: '16:00', zh: '普拉提', en: 'Pilates', loc: 'POOL BAR', cats: ['sport'], note: '另有记录写作健身中心' },
+    { s: '15:45', e: '16:15', zh: '足球', en: 'Football', loc: 'FUTBOLSAHASI', cats: ['sport'] },
+    { s: '20:00', e: '23:00', zh: '原声吉他', en: 'Akustik Gitar · Acoustic Guitar', loc: 'ESCAPE BAR', cats: ['music'] },
+    { s: '20:30', e: '21:00', zh: '迷你迪斯科', en: 'Mini Disco Time', loc: 'HALLEY SALONU', cats: ['kids'], note: '另有记录写作足球场 FUTBOLSAHASI' },
+    { s: '23:30', e: '02:30', zh: 'Take Off 迪斯科', en: 'Take Off Disco · DJ', loc: 'TAKE OFF DISCO', cats: ['music'] }
+  ];
+
+  // 每天的用餐时段（官网）
+  var MEALS = [
+    { s: '07:00', e: '10:00', zh: '早餐', en: 'Breakfast', loc: 'LE BUFFET', cats: ['dining'] },
+    { s: '10:00', e: '11:00', zh: '晚早餐', en: 'Late Breakfast', loc: 'LE BUFFET', cats: ['dining'] },
+    { s: '12:00', e: '16:00', zh: '快餐自助', en: 'Garden Gourmet · Fast Food', loc: 'GARDEN GOURMET', cats: ['dining'] },
+    { s: '12:30', e: '14:30', zh: '午餐', en: 'Lunch', loc: 'LE BUFFET', cats: ['dining'] },
+    { s: '19:00', e: '21:30', zh: '晚餐', en: 'Dinner', loc: 'LE BUFFET', cats: ['dining'] },
+    { s: '19:00', e: '22:00', zh: '零点餐厅晚餐', en: 'À la carte', loc: 'À LA CARTE', cats: ['dining'], note: '需提前预约' },
+    { s: '00:00', e: '01:30', zh: '夜宵', en: 'Late Snack', loc: 'LE BUFFET', cats: ['dining'] }
+  ];
+
+  // 各天特别节目（键：0 = 周日 … 6 = 周六）
+  var WEEKLY = {
+    1: [
+      { s: '21:30', e: '23:15', zh: '现场音乐', en: 'Canlı Müzik · Live Music', loc: 'VISTA LOBBY BAR', cats: ['music'] }
+    ],
+    2: [
+      { s: '11:30', e: '12:00', zh: '陶艺工坊', en: 'Seramik Atölyesi · Ceramic Workshop', loc: '—', cats: ['leisure'] },
+      { s: '12:00', e: '12:30', zh: '充气障碍赛', en: 'Şişme Parkur · Inflatable Course', loc: 'POOL', cats: ['kids', 'sport'] },
+      { s: '21:00', e: '21:30', zh: 'Dumbo 儿童秀', en: 'Dumbo Kids Show', loc: 'THE LUMINA', cats: ['kids', 'show'] },
+      { s: '21:30', e: '23:00', zh: 'Mr. Concorde 秀', en: 'Mr. Concorde Show', loc: 'THE LUMINA', cats: ['show'] },
+      { s: '22:30', e: '23:45', zh: '码头派对', en: 'Pier Party', loc: 'BEACH', cats: ['music'] }
+    ],
+    3: [
+      { s: '21:30', e: '23:00', zh: 'Drifters 乐队现场', en: 'Drifters Canlı Müzik', loc: 'VISTA LOBBY BAR', cats: ['music'] }
+    ],
+    4: [],
+    5: [
+      { s: '21:00', e: '21:30', zh: 'Quanto Cirgo 儿童秀', en: 'Quanto Cirgo Kids Show', loc: 'THE LUMINA', cats: ['kids', 'show'] },
+      { s: '21:30', e: '22:30', zh: 'Michael Jackson 秀', en: 'Michael Jackson Show', loc: 'THE LUMINA', cats: ['show'] },
+      { s: '22:30', e: '23:15', zh: '现场音乐', en: 'Live Music', loc: '—', cats: ['music'] }
+    ],
+    6: [],
+    0: [
+      { s: '10:00', e: '14:00', zh: '香槟早午餐', en: 'Champagne Brunch', loc: 'LE BUFFET', cats: ['dining'] },
+      { s: '21:30', e: '22:00', zh: '卡拉 OK', en: 'Karaoke', loc: 'VISTA LOBBY BAR', cats: ['music'] }
+    ]
+  };
+
+  var RESTAURANTS = [
+    { name: 'Le Buffet', zh: '主餐厅 · 自助', desc: '土耳其和国际菜，有现场烹饪，另设儿童、素食和纯素餐台。只供应本地饮品。',
+      hours: [['早餐', '07:00', '10:00'], ['晚早餐', '10:00', '11:00'], ['午餐', '12:30', '14:30'], ['晚餐', '19:00', '21:30'], ['夜宵', '00:00', '01:30']],
+      rule: '周日另有香槟早午餐 10:00–14:00' },
+    { name: 'Garden Gourmet', zh: '快餐 · 自助', desc: '汉堡、土耳其烤肉（döner）、土耳其船形饼（pide）、披萨和甜点。', hours: [['', '12:00', '16:00']] },
+    { name: 'Asiana', zh: '远东料理', desc: '寿司、刺身等远东菜式。', hours: [['', '19:00', '22:00']], rule: '需预约' },
+    { name: 'Da Vinci', zh: '意大利菜', desc: '披萨、意面。', hours: [['', '19:00', '22:00']], rule: '需预约' },
+    { name: 'Dafne', zh: '土耳其菜', desc: '', hours: [['', '19:00', '22:00']], rule: '需预约' },
+    { name: 'Poseidon', zh: '海鲜', desc: '海鲜和爱琴海冷盘（meze），露天用餐。', hours: [['', '19:00', '22:00']], rule: '需预约 · 收餐位费 · 每周只开其中几天' },
+    { name: 'Barbeque', zh: '烧烤', desc: '在海滩边，按自己的口味烤。', hours: [['', '19:00', '22:00']], rule: '需预约' },
+    { name: 'Vinario Steak House', zh: '牛排', desc: '牛排配葡萄酒。App 里叫 Vinario Meat Restaurant。', hours: [['', '19:00', '22:00']], rule: '需预约 · 不接待 12 岁以下' }
+  ];
+
+  var BARS = [
+    { name: 'Vista Lobby Bar', zh: '大堂吧', desc: '本地和进口饮品、花草茶。周一、周三晚有现场音乐，周日晚卡拉 OK。', hours: [['', '09:00', '00:00']] },
+    { name: 'Pool Bar', zh: '泳池吧', desc: '在主泳池旁，上午飞镖和下午普拉提在这里。', always: true },
+    { name: 'Escape Bar', zh: '海景吧', desc: '面朝地中海，适合看日落。每晚原声吉他。', hours: [['', '09:00', '23:30']], note: '另有来源写作 12:00–23:30' },
+    { name: 'Café Mundo', zh: '甜品咖啡', desc: '蛋糕、糕点和冷热饮。', hours: [['', '08:30', '23:00']], note: '另有来源写作 09:00–23:00' },
+    { name: 'C Lounge Bar', zh: '休闲吧', desc: '', hours: [['', '16:00', '00:00']] },
+    { name: 'Habana Lounge', zh: '雪茄吧', desc: '有雪茄单和露台。', hours: [['', '18:00', '00:00']] },
+    { name: 'Strike Bowling Bar', zh: '游戏室', desc: '保龄球、台球和街机另收费，保龄球和台球需预约。', hours: [['', '10:00', '23:00']] },
+    { name: 'Take Off Disco', zh: '迪斯科', desc: 'DJ 打碟。', hours: [['', '23:30', '02:30']] },
+    { name: 'Splash Aqua Bar', zh: '滑梯池吧', desc: '在滑梯池边，只在夏季营业。', hours: [] },
+    { name: 'Pier Bar', zh: '码头吧', desc: '在码头上喝鸡尾酒。', hours: [] },
+    { name: 'Big Barrel Beer House', zh: '啤酒屋', desc: '约 10 种生啤。', hours: [] }
+  ];
+
+  var FACILITIES = [
+    { name: 'Carpe Diem Spa', zh: 'Spa', desc: '两层，约 4,000 m²，内有维他命吧。按摩和护理另收费，有蜂蜜、巧克力、咖啡去角质、Cleopatra 等项目。', hours: [], rule: 'Spa 中心分机 391' },
+    { name: 'Fitness', zh: '健身中心', desc: '在 Spa 2 楼，有教练。每天 10:30 有晨间健身课。', hours: [['', '08:00', '20:00']] },
+    { name: 'Moppet Mini Club', zh: '儿童俱乐部', desc: '4–12 岁免费，4 岁以下需家长陪同。有遮阳戏水池、户外游乐区和室内活动室。', hours: [['', '10:00', '23:00']], note: '另有来源写作 10:00–18:00' },
+    { name: 'Pools & Slides', zh: '泳池与滑梯', desc: '泳池和滑梯共约 3,214 m²。Relax 泳池只限 16 岁以上。11 月 1 日至 5 月 1 日滑梯池和室内泳池加热，滑梯关闭。', hours: [] },
+    { name: 'Beach & Pier', zh: '海滩与码头', desc: '码头上有酒吧。海滩和码头上的凉亭需付费。', hours: [['凉亭', '09:00', '18:00']] },
+    { name: 'Tennis', zh: '网球', desc: '球场旁的网球办公室负责订场、租拍和私教课。夜间灯光另收费。', hours: [] },
+    { name: 'Water Sports', zh: '水上运动', desc: '非机动项目免费。摩托艇、滑翔伞、香蕉船、飞碟船、双体帆船等需付费并预约。', hours: [] }
+  ];
+
+  var TERMS = [
+    ['THE LUMINA', '<b>演出场地</b>，晚间儿童秀和主秀'],
+    ['VISTA LOBBY BAR', '<b>大堂吧</b>，下午飞镖、现场音乐、卡拉 OK'],
+    ['ESCAPE BAR', '<b>海景吧</b>，每晚原声吉他'],
+    ['POOL BAR / POOL', '<b>泳池吧 / 泳池</b>，上午飞镖、普拉提、充气障碍赛'],
+    ['FITNESS', '<b>健身中心</b>，在 Carpe Diem Spa 2 楼'],
+    ['KAPALIHAVUZ', '<b>室内泳池</b>（Kapalı havuz），水中健身操'],
+    ['FUTBOLSAHASI', '<b>足球场</b>（Futbol sahası），下午足球'],
+    ['HALLEY SALONU', '<b>Halley 厅</b>（salon = 厅），迷你迪斯科'],
+    ['BEACH', '<b>海滩与码头</b>，周二码头派对'],
+    ['MOPPET MINI CLUB', '<b>儿童俱乐部</b>，4–12 岁'],
+    ['Canlı Müzik', '<b>现场音乐</b>'],
+    ['Akustik Gitar', '<b>原声吉他</b>'],
+    ['Su Jimnastiği', '<b>水中健身操</b>'],
+    ['Seramik Atölyesi', '<b>陶艺工坊</b>'],
+    ['Şişme Parkur', '<b>充气障碍赛道</b>'],
+    ['Everyday', '<b>每天</b>，App 里标在每日固定活动上']
+  ];
+
+  /* ================= 工具 ================= */
+
+  var DAY_ZH = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+  var DAY_EN = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  var DAY_ORDER = [1, 2, 3, 4, 5, 6, 0];
+  var HASH_DAY = { sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
+  var DAY_START = 5 * 60; // 05:00 前算作前一天的深夜
+  var TR_OFFSET = 180;    // 土耳其全年 UTC+3，不用夏令时
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function mins(hhmm) {
+    var p = hhmm.split(':');
+    return (+p[0]) * 60 + (+p[1]);
+  }
+  // 换算成“酒店日”分钟数：凌晨的时段排在当天最后
+  function span(s, e) {
+    var a = mins(s), b = mins(e);
+    if (a < DAY_START) { a += 1440; b += 1440; }
+    if (b <= a) b += 1440;
+    return [a, b];
+  }
+  function clock(t) {
+    var m = ((t % 1440) + 1440) % 1440;
+    var h = Math.floor(m / 60), mm = m % 60;
+    return (h < 10 ? '0' : '') + h + ':' + (mm < 10 ? '0' : '') + mm;
+  }
+  function until(n) {
+    if (n < 60) return n + ' 分钟后';
+    return '约 ' + Math.round(n / 60) + ' 小时后';
+  }
+  function load(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function save(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* 存不了就算了 */ } }
+
+  function nowTR() {
+    var d = new Date(Date.now() + TR_OFFSET * 60000);
+    var wd = d.getUTCDay();
+    var raw = d.getUTCHours() * 60 + d.getUTCMinutes();
+    var t = raw, day = wd;
+    if (raw < DAY_START) { t += 1440; day = (wd + 6) % 7; }
+    return { day: day, t: t, raw: raw, wd: wd, month: d.getUTCMonth() + 1, date: d.getUTCDate() };
+  }
+
+  function itemsFor(day) {
+    var list = [];
+    EVERYDAY.forEach(function (x) { list.push(Object.assign({}, x)); });
+    (WEEKLY[day] || []).forEach(function (x) { list.push(Object.assign({ special: true }, x)); });
+    MEALS.forEach(function (x) { list.push(Object.assign({}, x)); });
+    list.forEach(function (it) { var sp = span(it.s, it.e); it.a = sp[0]; it.b = sp[1]; });
+    list.sort(function (x, y) { return (x.a - y.a) || (x.b - y.b); });
+    return list;
+  }
+
+  /* ================= 状态 ================= */
+
+  var state = { day: nowTR().day, cat: 'all' };
+  var savedCat = load('concorde-filter');
+  if (savedCat && FILTERS.indexOf(savedCat) >= 0) state.cat = savedCat;
+  var hashDay = HASH_DAY[(location.hash || '').replace('#', '').toLowerCase()];
+  if (hashDay != null) state.day = hashDay;
+
+  /* ================= 控件（只建一次，之后只更新状态） ================= */
+
+  var dayBtns = {}, chipBtns = {};
+
+  function buildControls() {
+    var days = document.getElementById('days');
+    DAY_ORDER.forEach(function (d) {
+      var b = el('button', 'day');
+      b.type = 'button';
+      b.appendChild(el('span', 'zh', DAY_ZH[d]));
+      b.appendChild(el('span', 'en', DAY_EN[d]));
+      b.addEventListener('click', function () { state.day = d; renderAll(); });
+      dayBtns[d] = b;
+      days.appendChild(b);
+    });
+    var chips = document.getElementById('chips');
+    FILTERS.forEach(function (c) {
+      var b = el('button', 'chip' + (c === 'all' ? '' : ' cat-' + c));
+      b.type = 'button';
+      if (c !== 'all') b.appendChild(el('i', 'dot'));
+      b.appendChild(document.createTextNode(c === 'all' ? '全部' : CAT_ZH[c]));
+      b.addEventListener('click', function () { state.cat = c; save('concorde-filter', c); renderAll(); });
+      chipBtns[c] = b;
+      chips.appendChild(b);
+    });
+  }
+
+  function updateControls(now) {
+    DAY_ORDER.forEach(function (d) {
+      var b = dayBtns[d], isToday = d === now.day;
+      b.setAttribute('aria-pressed', String(d === state.day));
+      b.classList.toggle('is-today', isToday);
+      b.lastChild.textContent = isToday ? (now.t >= 1440 ? '今晚' : '今天') : DAY_EN[d];
+    });
+    FILTERS.forEach(function (c) { chipBtns[c].setAttribute('aria-pressed', String(c === state.cat)); });
+  }
+
+  /* ================= 时间表 ================= */
+
+  function whereEl(loc) {
+    var w = el('div', 'r-where');
+    if (NO_GATE[loc]) {
+      w.appendChild(el('span', 'gate-zh', NO_GATE[loc]));
+    } else {
+      w.appendChild(el('span', 'gate', loc));
+      if (PLACES[loc]) w.appendChild(el('span', 'gate-zh', PLACES[loc]));
+    }
+    return w;
+  }
+
+  function rowEl(it, status, pillText) {
+    var li = el('li', 'row' + (status ? ' is-' + status : ''));
+    var time = el('div', 'r-time');
+    time.appendChild(el('span', 's', it.s));
+    time.appendChild(el('span', 'e', '–' + it.e));
+    li.appendChild(time);
+
+    var what = el('div', 'r-what');
+    what.appendChild(el('div', 'r-name', it.zh));
+    what.appendChild(el('span', 'r-orig', it.en));
+    var tags = el('div', 'r-tags');
+    it.cats.forEach(function (c) {
+      var t = el('span', 'tag cat-' + c);
+      t.appendChild(el('i', 'dot'));
+      t.appendChild(document.createTextNode(CAT_ZH[c]));
+      tags.appendChild(t);
+    });
+    if (it.special) tags.appendChild(el('span', 'tag special', DAY_ZH[state.day] + '限定'));
+    what.appendChild(tags);
+    if (it.note) what.appendChild(el('p', 'r-note', it.note));
+    li.appendChild(what);
+
+    li.appendChild(whereEl(it.loc));
+    var st = el('div', 'r-status');
+    if (pillText) st.appendChild(el('span', 'pill', pillText));
+    li.appendChild(st);
+    return li;
+  }
+
+  var GROUPS = [
+    { zh: '全天', en: 'ALL DAY', test: function (it) { return it.allDay; } },
+    { zh: '上午', en: 'MORNING', test: function (it) { return !it.allDay && it.a < 720; } },
+    { zh: '下午', en: 'AFTERNOON', test: function (it) { return !it.allDay && it.a >= 720 && it.a < 1080; } },
+    { zh: '晚上', en: 'EVENING', test: function (it) { return !it.allDay && it.a >= 1080 && it.a < 1440; } },
+    { zh: '深夜', en: 'AFTER MIDNIGHT', test: function (it) { return !it.allDay && it.a >= 1440; } }
+  ];
+
+  function renderBoard(now) {
+    var isToday = state.day === now.day;
+    var list = itemsFor(state.day).filter(function (it) {
+      return state.cat === 'all' || it.cats.indexOf(state.cat) >= 0;
+    });
+
+    document.getElementById('boardTitle').textContent =
+      DAY_ZH[state.day] + (isToday ? (now.t >= 1440 ? '（今晚）' : '（今天）') : '') + '时间表';
+    var specials = list.filter(function (it) { return it.special; }).length;
+    document.getElementById('boardMeta').textContent =
+      '共 ' + list.length + ' 项' + (specials ? '，其中' + DAY_ZH[state.day] + '限定 ' + specials + ' 项' : '');
+
+    var nextStart = Infinity;
+    if (isToday) {
+      list.forEach(function (it) { if (!it.allDay && it.a > now.t && it.a < nextStart) nextStart = it.a; });
+    }
+
+    var box = document.getElementById('groups');
+    box.textContent = '';
+    if (!list.length) {
+      box.appendChild(el('p', 'empty', DAY_ZH[state.day] + '没有“' + CAT_ZH[state.cat] + '”类的记录。'));
+      return;
+    }
+    GROUPS.forEach(function (g) {
+      var items = list.filter(g.test);
+      if (!items.length) return;
+      var sec = el('section', 'grp');
+      var h = el('h3', 'grp-title', g.zh);
+      h.appendChild(el('span', 'en-label', g.en));
+      sec.appendChild(h);
+      var ol = el('ol', 'rows');
+      items.forEach(function (it) {
+        var status = '', pill = '';
+        if (isToday) {
+          if (now.t >= it.b) { status = 'done'; pill = '已结束'; }
+          else if (it.allDay) {
+            if (now.t >= it.a) { status = 'open'; pill = '开放中'; }
+            else pill = it.s + ' 开放';
+          }
+          else if (now.t >= it.a) { status = 'now'; pill = '进行中'; }
+          else if (it.a === nextStart) { status = 'next'; pill = '下一个'; }
+          else pill = until(it.a - now.t);
+        }
+        ol.appendChild(rowEl(it, status, pill));
+      });
+      sec.appendChild(ol);
+      box.appendChild(sec);
+    });
+  }
+
+  /* ================= 此刻 ================= */
+
+  function fidsItem(kind, it, extra) {
+    var li = el('li', 'fids-item');
+    li.appendChild(el('span', 'fids-tag ' + kind, kind === 'now' ? '进行中' : '下一个'));
+    var w = el('span', 'fids-what');
+    w.appendChild(el('span', 't', it.s));
+    w.appendChild(document.createTextNode(it.zh));
+    li.appendChild(w);
+    var place = NO_GATE[it.loc] || (it.loc + (PLACES[it.loc] ? ' · ' + PLACES[it.loc] : ''));
+    li.appendChild(el('span', 'fids-where', place + ' · ' + extra));
+    return li;
+  }
+
+  function renderNow(now) {
+    document.getElementById('clock').textContent = clock(now.raw);
+    document.getElementById('clockDay').textContent = now.month + ' 月 ' + now.date + ' 日 · ' + DAY_ZH[now.wd];
+
+    var diff = -new Date().getTimezoneOffset() - TR_OFFSET;
+    var diffText = '';
+    if (diff) {
+      var hrs = Math.abs(diff) / 60;
+      diffText = '你所在时区比土耳其' + (diff > 0 ? '快 ' : '慢 ') + (hrs % 1 ? hrs.toFixed(1) : hrs) + ' 小时';
+    }
+    document.getElementById('clockDiff').textContent = diffText;
+
+    var box = document.getElementById('nowNext');
+    box.textContent = '';
+    var today = itemsFor(now.day).filter(function (it) { return !it.allDay; });
+
+    var running = today.filter(function (it) { return now.t >= it.a && now.t < it.b; });
+    running.sort(function (x, y) { return y.a - x.a; });
+    running.slice(0, 4).forEach(function (it) { box.appendChild(fidsItem('now', it, '到 ' + it.e)); });
+
+    var upcoming = today.filter(function (it) { return it.a > now.t; });
+    if (upcoming.length) {
+      var first = upcoming[0].a;
+      upcoming.filter(function (it) { return it.a === first; }).slice(0, 3).forEach(function (it) {
+        box.appendChild(fidsItem('next', it, until(it.a - now.t)));
+      });
+    } else {
+      var tomorrow = itemsFor((now.day + 1) % 7).filter(function (it) { return !it.allDay; })[0];
+      if (tomorrow) box.appendChild(fidsItem('next', tomorrow, '明天'));
+    }
+  }
+
+  /* ================= 一周、场所、用语 ================= */
+
+  function renderWeek() {
+    var box = document.getElementById('weekList');
+    DAY_ORDER.forEach(function (d) {
+      var li = el('li', 'wk');
+      var b = el('button', 'wk-day', DAY_ZH[d]);
+      b.type = 'button';
+      b.appendChild(el('small', null, DAY_EN[d]));
+      b.addEventListener('click', function () {
+        state.day = d;
+        renderAll();
+        document.getElementById('board').scrollIntoView({ block: 'start' });
+      });
+      li.appendChild(b);
+      var items = el('div', 'wk-items');
+      var list = WEEKLY[d] || [];
+      if (!list.length) {
+        items.appendChild(el('span', 'wk-none', '没有收录。其他晚上的主秀多在 21:30 于 The Lumina 开始。'));
+      }
+      list.forEach(function (it) {
+        var c = el('span', 'wk-item');
+        c.appendChild(el('span', 't', it.s));
+        c.appendChild(document.createTextNode(it.zh));
+        if (!NO_GATE[it.loc]) c.appendChild(el('span', 'l', it.loc));
+        items.appendChild(c);
+      });
+      li.appendChild(items);
+      box.appendChild(li);
+    });
+  }
+
+  function openState(v, now) {
+    if (v.always) return { cls: 'open', text: '营业中' };
+    if (!v.hours || !v.hours.length) return null;
+    var soonest = Infinity;
+    for (var i = 0; i < v.hours.length; i++) {
+      var h = v.hours[i], sp = span(h[1], h[2]);
+      if (now.t >= sp[0] && now.t < sp[1]) return { cls: 'open', text: h[0] ? h[0] + '供应中' : '营业中' };
+      if (sp[0] > now.t && sp[0] < soonest) soonest = sp[0];
+    }
+    if (soonest < Infinity) return { cls: 'closed', text: clock(soonest) + ' 开门' };
+    return { cls: 'closed', text: '今天已结束' };
+  }
+
+  function renderVenues(id, venues, now) {
+    var box = document.getElementById(id);
+    box.textContent = '';
+    venues.forEach(function (v) {
+      var li = el('li', 'venue');
+      var main = el('div', 'v-main');
+      var head = el('div', 'v-name');
+      head.appendChild(el('span', 'v-en', v.name));
+      head.appendChild(el('span', 'v-zh', v.zh));
+      main.appendChild(head);
+      if (v.desc) main.appendChild(el('p', 'v-desc', v.desc));
+      if (v.rule) main.appendChild(el('p', 'v-rule', v.rule));
+      if (v.note) main.appendChild(el('p', 'r-note', v.note));
+      li.appendChild(main);
+
+      var side = el('div', 'v-side');
+      if (v.always) {
+        side.appendChild(el('span', 'hours', '24 小时'));
+      } else if (!v.hours.length) {
+        side.appendChild(el('span', 'hours none', '时间未公布'));
+      } else {
+        v.hours.forEach(function (h) {
+          var line = el('span', 'hours');
+          if (h[0]) line.appendChild(el('span', 'h-label', h[0]));
+          line.appendChild(document.createTextNode(h[1] + '–' + h[2]));
+          side.appendChild(line);
+        });
+      }
+      var st = openState(v, now);
+      if (st) side.appendChild(el('span', 'pill ' + st.cls, st.text));
+      li.appendChild(side);
+      box.appendChild(li);
+    });
+  }
+
+  function renderTerms() {
+    var box = document.getElementById('termList');
+    TERMS.forEach(function (t) {
+      var d = el('div', 'term');
+      d.appendChild(el('dt', null, t[0]));
+      var dd = el('dd');
+      dd.innerHTML = t[1]; // 固定文案，只含 <b>
+      d.appendChild(dd);
+      box.appendChild(d);
+    });
+  }
+
+  /* ================= 启动 ================= */
+
+  var lastMinute = -1;
+  function renderAll() {
+    var now = nowTR();
+    lastMinute = now.raw;
+    renderNow(now);
+    updateControls(now);
+    renderBoard(now);
+    renderVenues('restaurantList', RESTAURANTS, now);
+    renderVenues('barList', BARS, now);
+    renderVenues('facilityList', FACILITIES, now);
+  }
+  function tick() {
+    if (nowTR().raw !== lastMinute) renderAll();
+  }
+
+  buildControls();
+  renderWeek();
+  renderTerms();
+  renderAll();
+  setInterval(tick, 15000);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) tick(); });
+})();
+</script>
